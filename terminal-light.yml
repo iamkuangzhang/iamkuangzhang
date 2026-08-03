@@ -1,0 +1,36 @@
+theme: github-light
+
+window:
+  width: 960
+  title: "iamkz@github: ~"
+  style: macos
+  borderRadius: 16
+  autoHeight: true
+  maxHeight: 340
+
+terminal:
+  prompt: "iamkz@github:~$ "
+  fontSize: 18
+  padding: 28
+
+effects:
+  shadow: true
+  scanlines: false
+  textGlow: false
+  vignette: false
+
+blocks:
+  - block: motd
+    config:
+      title: "IAMKZ"
+      subtitle: "Open Source · Developer Tools · Automation"
+
+  - block: custom
+    config:
+      command: "cat ./currently-building"
+      lines:
+        - "[[fg:blue]]Practical tools for systems, workflows and everyday problems.[[/fg]]"
+
+  - block: progress-bar
+    config:
+      label: "building"
