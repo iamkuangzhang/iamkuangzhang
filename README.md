@@ -5,15 +5,15 @@
 <picture>
   <source
     media="(prefers-color-scheme: dark)"
-    srcset="./assets/profile-header-dark.svg"
+    srcset="./assets/profile-header-dark-v2.svg"
   />
   <source
     media="(prefers-color-scheme: light)"
-    srcset="./assets/profile-header-light.svg"
+    srcset="./assets/profile-header-light-v2.svg"
   />
   <img
     width="100%"
-    src="./assets/profile-header-dark.svg"
+    src="./assets/profile-header-dark-v2.svg"
     alt="iamkz animated terminal profile header"
   />
 </picture>
