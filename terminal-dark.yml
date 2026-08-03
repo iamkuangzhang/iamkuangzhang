@@ -6,7 +6,7 @@ window:
   style: macos
   borderRadius: 16
   autoHeight: true
-  maxHeight: 340
+  maxHeight: 330
 
 terminal:
   prompt: "iamkz@github:~$ "
@@ -18,6 +18,13 @@ effects:
   scanlines: false
   textGlow: false
   vignette: false
+
+animation:
+  loop: true
+  defaultTypingDuration: 0.8
+  commandOutputPause: 0.35
+  outputEndPause: 1
+  defaultSequencePause: 2
 
 blocks:
   - block: motd
@@ -31,6 +38,9 @@ blocks:
       lines:
         - "[[fg:cyan]]Practical tools for systems, workflows and everyday problems.[[/fg]]"
 
-  - block: progress-bar
+  - block: custom
     config:
-      label: "building"
+      command: "./build.sh"
+      lines:
+        - "[[fg:green]]✓ profile ready[[/fg]]"
+        - "[[dim]]systems · tooling · automation[[/dim]]"
