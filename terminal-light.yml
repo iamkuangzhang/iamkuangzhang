@@ -6,7 +6,7 @@ window:
   style: macos
   borderRadius: 16
   autoHeight: true
-  maxHeight: 330
+  maxHeight: 360
 
 terminal:
   prompt: "iamkz@github:~$ "
@@ -21,10 +21,10 @@ effects:
 
 animation:
   loop: true
-  defaultTypingDuration: 0.8
+  defaultTypingDuration: 0.75
   commandOutputPause: 0.35
-  outputEndPause: 1
-  defaultSequencePause: 2
+  outputEndPause: 0.9
+  defaultSequencePause: 1.6
 
 blocks:
   - block: motd
@@ -34,13 +34,39 @@ blocks:
 
   - block: custom
     config:
-      command: "cat ./currently-building"
+      command: "whoami"
       lines:
-        - "[[fg:blue]]Practical tools for systems, workflows and everyday problems.[[/fg]]"
+        - "[[fg:blue]]iamkz[[/fg]]"
+        - "[[dim]]An open-source developer building useful tools for real-world workflows.[[/dim]]"
 
   - block: custom
     config:
-      command: "./build.sh"
+      command: "ls ./focus"
       lines:
-        - "[[fg:green]]✓ profile ready[[/fg]]"
-        - "[[dim]]systems · tooling · automation[[/dim]]"
+        - "[[fg:green]]developer-tools[[/fg]]"
+        - "[[fg:green]]backend-systems[[/fg]]"
+        - "[[fg:green]]automation[[/fg]]"
+
+  - block: custom
+    config:
+      command: "cat ./currently-building"
+      lines:
+        - "[[fg:orange]]Practical tools, scripts and small experiments that solve everyday problems.[[/fg]]"
+
+  - block: custom
+    config:
+      command: "cat ./stack"
+      lines:
+        - "[[fg:purple]]Python · Java · TypeScript · C · PostgreSQL · Vue · Docker[[/fg]]"
+
+  - block: custom
+    config:
+      command: "echo $LOCATION"
+      lines:
+        - "[[fg:cyan]]Chengdu, China[[/fg]]"
+
+  - block: custom
+    config:
+      command: "./status"
+      lines:
+        - "[[fg:green]]✓ shipping useful software, one experiment at a time[[/fg]]"
