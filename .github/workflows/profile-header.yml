@@ -27,14 +27,14 @@ jobs:
         uses: williamzujkowski/svg-terminal@v1
         with:
           config: terminal-dark.yml
-          output: assets/profile-header-dark.svg
+          output: assets/profile-header-dark-v2.svg
           minify: true
 
       - name: Generate light header
         uses: williamzujkowski/svg-terminal@v1
         with:
           config: terminal-light.yml
-          output: assets/profile-header-light.svg
+          output: assets/profile-header-light-v2.svg
           minify: true
 
       - name: Commit generated headers
@@ -42,13 +42,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/profile-header-dark.svg
-          git add assets/profile-header-light.svg
+          git add assets/profile-header-dark-v2.svg
+          git add assets/profile-header-light-v2.svg
 
           if git diff --cached --quiet; then
             echo "Profile headers are already up to date."
             exit 0
           fi
 
-          git commit -m "chore: update animated profile header"
+          git commit -m "chore: regenerate profile headers with new cache key"
           git push
