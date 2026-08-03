@@ -1,0 +1,54 @@
+name: Generate Profile Header
+
+on:
+  workflow_dispatch:
+
+  push:
+    paths:
+      - "terminal-dark.yml"
+      - "terminal-light.yml"
+      - ".github/workflows/profile-header.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create assets directory
+        run: mkdir -p assets
+
+      - name: Generate dark header
+        uses: williamzujkowski/svg-terminal@v1
+        with:
+          config: terminal-dark.yml
+          output: assets/profile-header-dark.svg
+          minify: true
+
+      - name: Generate light header
+        uses: williamzujkowski/svg-terminal@v1
+        with:
+          config: terminal-light.yml
+          output: assets/profile-header-light.svg
+          minify: true
+
+      - name: Commit generated headers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/profile-header-dark.svg
+          git add assets/profile-header-light.svg
+
+          if git diff --cached --quiet; then
+            echo "Profile headers are already up to date."
+            exit 0
+          fi
+
+          git commit -m "chore: update animated profile header"
+          git push
