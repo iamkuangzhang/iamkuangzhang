@@ -12,6 +12,11 @@ on:
 permissions:
   contents: write
 
+# 防止多个生成任务同时向 main 推送
+concurrency:
+  group: profile-header-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -19,6 +24,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
 
       - name: Create assets directory
         run: mkdir -p assets
@@ -27,28 +35,36 @@ jobs:
         uses: williamzujkowski/svg-terminal@v1
         with:
           config: terminal-dark.yml
-          output: assets/profile-header-dark-v2.svg
+          output: assets/profile-header-dark.svg
           minify: true
 
       - name: Generate light header
         uses: williamzujkowski/svg-terminal@v1
         with:
           config: terminal-light.yml
-          output: assets/profile-header-light-v2.svg
+          output: assets/profile-header-light.svg
           minify: true
 
-      - name: Commit generated headers
+      - name: Commit and push generated headers
+        shell: bash
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          set -e
 
-          git add assets/profile-header-dark-v2.svg
-          git add assets/profile-header-light-v2.svg
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            assets/profile-header-dark.svg \
+            assets/profile-header-light.svg
 
           if git diff --cached --quiet; then
             echo "Profile headers are already up to date."
             exit 0
           fi
 
-          git commit -m "chore: regenerate profile headers with new cache key"
-          git push
+          git commit -m "chore: update generated profile headers"
+
+          # main 可能在生成过程中发生变化，先同步再推送
+          git pull --rebase origin main
+          git push origin HEAD:main
