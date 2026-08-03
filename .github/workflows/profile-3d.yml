@@ -1,0 +1,42 @@
+name: Generate 3D Contribution Graph
+
+on:
+  schedule:
+    # 每天北京时间 01:15 运行
+    - cron: "15 17 * * *"
+
+  # 允许在 Actions 页面手动运行
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Generate 3D contribution graph
+
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v5
+
+      - name: Generate 3D contribution files
+        uses: yoshi389111/github-profile-3d-contrib@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add profile-3d-contrib
+
+          if git diff --cached --quiet; then
+            echo "No contribution graph changes."
+            exit 0
+          fi
+
+          git commit -m "chore: update 3D contribution graph"
+          git push
